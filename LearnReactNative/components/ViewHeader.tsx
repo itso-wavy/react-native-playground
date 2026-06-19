@@ -1,19 +1,28 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface ViewHeaderProps {
   title: string;
+  onPressLeftWing: () => void;
 }
 
-const ViewHeader = ({ title }: ViewHeaderProps) => {
+const ViewHeader = ({ title, onPressLeftWing }: ViewHeaderProps) => {
   return (
     <View style={styles.wrapper}>
       {/* LeftWing */}
-      <View style={styles.leftWing}>
+
+      <Pressable
+        onPress={onPressLeftWing}
+        style={({ pressed }) => [
+          styles.leftWing,
+          pressed && { backgroundColor: '#00000010' },
+        ]}
+      >
         <Image
           source={require('../assets/icons/arrow-left.png')}
           style={styles.icon}
+          resizeMode="cover"
         />
-      </View>
+      </Pressable>
 
       {/* CenterView */}
       <View style={styles.centerView}>
@@ -28,14 +37,13 @@ const ViewHeader = ({ title }: ViewHeaderProps) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F7F7F7',
     position: 'relative',
     gap: 8,
-    borderWidth: 1,
   },
   icon: {
     width: 24,
@@ -47,9 +55,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightblue',
     left: 0,
     right: 'auto',
+    borderRadius: 6,
   },
   rightWing: {
     minWidth: 36,
@@ -57,15 +65,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightblue',
     right: 0,
     left: 'auto',
+    borderRadius: 6,
   },
   centerView: {
     flex: 1,
     height: 36,
     justifyContent: 'center',
-    backgroundColor: 'lightyellow',
   },
   title: {
     textAlign: 'center',
