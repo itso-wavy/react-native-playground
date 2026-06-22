@@ -1,4 +1,5 @@
 `emulator -avd Pixel_6 &`
+`adb shell monkey -p com.learnreactnative 1`
 
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 

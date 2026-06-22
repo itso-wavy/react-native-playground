@@ -20,7 +20,6 @@ const ViewHeader = ({ title, onPressLeftWing }: ViewHeaderProps) => {
         <Image
           source={require('../assets/icons/arrow-left.png')}
           style={styles.icon}
-          resizeMode="cover"
         />
       </Pressable>
 
@@ -30,14 +29,15 @@ const ViewHeader = ({ title, onPressLeftWing }: ViewHeaderProps) => {
       </View>
 
       {/* RightWing */}
-      <View style={styles.rightWing}>RightWing</View>
+      <View style={styles.rightWing} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
-    paddingHorizontal: 16,
+    height: 52,
+    paddingHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -50,9 +50,8 @@ const styles = StyleSheet.create({
     height: 24,
   },
   leftWing: {
-    minWidth: 36,
-    height: 36,
-    paddingHorizontal: 6,
+    minWidth: 24,
+    height: 24,
     justifyContent: 'center',
     alignItems: 'center',
     left: 0,
@@ -60,9 +59,8 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   rightWing: {
-    minWidth: 36,
-    height: 36,
-    paddingHorizontal: 6,
+    minWidth: 24,
+    height: 24,
     justifyContent: 'center',
     alignItems: 'center',
     right: 0,
@@ -71,7 +69,6 @@ const styles = StyleSheet.create({
   },
   centerView: {
     flex: 1,
-    height: 36,
     justifyContent: 'center',
   },
   title: {

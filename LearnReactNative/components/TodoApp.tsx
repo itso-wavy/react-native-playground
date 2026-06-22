@@ -1,6 +1,14 @@
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ViewHeader, Empty } from '.';
+import { ViewHeader, Empty, AddTodo } from '.';
+import { useState } from 'react';
 
 /* 
 1. StatusBar 색상 바꾸기
@@ -16,11 +24,12 @@ const TodoApp = () => {
   const day = today.getDate();
   const dateFormatted = `${year}년 ${month}월 ${day}일`;
 
-  console.log(dateFormatted); // 에뮬레이터 개발자 도구에는 찍히지만, Metro 터미널엔 안 찍힘
+  // console.log(dateFormatted); // 에뮬레이터 개발자 도구에는 찍히지만, Metro 터미널엔 안 찍힘
 
-  const { top } = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
 
   const todos = [];
+  const [text, setText] = useState('');
 
   return (
     <>
@@ -28,19 +37,30 @@ const TodoApp = () => {
         <View style={[{ height: top }, styles.statusBar]} />
         <StatusBar barStyle="dark-content" />
       </>
-
-      <View style={styles.wrapper}>
-        <ViewHeader title={dateFormatted} />
-        <View style={{ flex: 1 }}>
-          {todos.length > 0 ? (
-            <View>
-              <Text>todolist 영역</Text>
-            </View>
-          ) : (
-            <Empty />
-          )}
+      <KeyboardAvoidingView
+        behavior={Platform.select({ ios: 'padding', android: 'padding' })}
+        style={styles.avoid}
+      >
+        <View style={styles.wrapper}>
+          <ViewHeader
+            title={dateFormatted}
+            onPressLeftWing={() => console.log('123')}
+          />
+          <View style={{ flex: 1 }}>
+            {todos.length > 0 ? (
+              <View>
+                <Text>todolist 영역</Text>
+              </View>
+            ) : (
+              <Empty />
+            )}
+          </View>
         </View>
-      </View>
+
+        <AddTodo text={text} setText={setText} />
+      </KeyboardAvoidingView>
+
+      <View style={[{ height: bottom }, styles.statusBar]} />
     </>
   );
 };
@@ -49,9 +69,12 @@ const styles = StyleSheet.create({
   statusBar: {
     backgroundColor: '#F7F7F7',
   },
-  wrapper: {
+  avoid: {
     flex: 1,
     backgroundColor: '#F7F7F7',
+  },
+  wrapper: {
+    flex: 1,
   },
 });
 
