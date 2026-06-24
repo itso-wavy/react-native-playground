@@ -3,6 +3,7 @@ import {
   Image,
   Keyboard,
   Platform,
+  Pressable,
   StyleSheet,
   TextInput,
   TouchableNativeFeedback,
@@ -23,6 +24,7 @@ const AddTodo = ({ onInsert }: { onInsert: (text: string) => void }) => {
     Keyboard.dismiss();
   };
 
+  // complete
   return (
     <View style={styles.wrapper}>
       <View style={styles.inputRow}>
@@ -36,7 +38,13 @@ const AddTodo = ({ onInsert }: { onInsert: (text: string) => void }) => {
           onSubmitEditing={handleSubmit}
           returnKeyType="send"
         />
-        {Platform.select({
+        <Pressable
+          style={({ pressed }) => [pressed && { opacity: 0.7 }]}
+          onPress={handleSubmit}
+        >
+          <SubmitButton />
+        </Pressable>
+        {/* {Platform.select({
           ios: (
             <TouchableOpacity onPress={handleSubmit} activeOpacity={0.7}>
               <SubmitButton />
@@ -49,7 +57,7 @@ const AddTodo = ({ onInsert }: { onInsert: (text: string) => void }) => {
               </TouchableNativeFeedback>
             </View>
           ),
-        })}
+        })} */}
       </View>
     </View>
   );

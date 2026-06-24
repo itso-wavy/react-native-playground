@@ -5,6 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ViewHeader, Empty, TodoList, AddTodo } from '.';
@@ -36,23 +37,8 @@ const TodoApp = () => {
   const dateFormatted = getDateString(today);
   // console.log(dateFormatted); // 에뮬레이터 개발자 도구에는 찍히지만, Metro 터미널엔 안 찍힘
 
-  const [todos, setTodos] = useState<Todo[]>([
-    // {
-    //   id: 1,
-    //   text: '작업 환경 설정',
-    //   done: true,
-    // },
-    // {
-    //   id: 2,
-    //   text: '리액트 네이티브 공부',
-    //   done: false,
-    // },
-    // {
-    //   id: 3,
-    //   text: '투두리스트 만들기',
-    //   done: false,
-    // },
-  ]);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const onInsert = (text: Todo['text']) => {
     const nextId =
@@ -85,7 +71,11 @@ const TodoApp = () => {
 
   // storage로부터 todos를 불러오기 -> setTodos -> todos 변동시 storage에 저장하는 순서
   useEffect(() => {
-    todosStorage.get().then(savedTodo => setTodos(savedTodo ?? []));
+    setLoading(true);
+    todosStorage.get().then(savedTodo => {
+      setTodos(savedTodo ?? []);
+      setLoading(false); // 로드 완료
+    });
   }, []);
 
   useEffect(() => {
@@ -109,7 +99,9 @@ const TodoApp = () => {
             onPressLeftWing={() => console.log('123')}
           />
           <View style={{ flex: 1 }}>
-            {todos.length > 0 ? (
+            {loading ? (
+              <ActivityIndicator size="large" />
+            ) : todos.length > 0 ? (
               <TodoList todos={todos} onToggle={onToggle} onDelete={onDelete} />
             ) : (
               <Empty />
