@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Image,
   Keyboard,
@@ -9,8 +10,15 @@ import {
   View,
 } from 'react-native';
 
-const AddTodo = ({ text, setText }: any) => {
+const AddTodo = ({ onInsert }: { onInsert: (text: string) => void }) => {
+  const [text, setText] = useState('');
+
   const handleSubmit = () => {
+    const trimmedText = text.trim();
+    if (!trimmedText) return;
+
+    console.log(trimmedText);
+    onInsert(trimmedText); // TextInput 사용시 trim 처리 할 것!
     setText('');
     Keyboard.dismiss();
   };
